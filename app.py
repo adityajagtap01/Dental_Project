@@ -70,7 +70,7 @@ st.title("🦷 Module 1: Intelligent Pre-Processing")
 st.write("Upload a raw dental image. The system will Validate, Classify, and Enhance it.")
 
 if model is None:
-    st.error(f"⚠️ Could not load AI model. Please ensure '{MODEL_PATH}' is in the same folder as this script.")
+    st.error(f"Could not load AI model. Please ensure '{MODEL_PATH}' is in the same folder as this script.")
     st.stop()
 
 patient_id = st.text_input("Enter Patient ID (e.g., P-101)", "Guest_001")
@@ -86,7 +86,7 @@ if uploaded_file is not None:
     with col1:
         st.image(original_image, caption="Original Raw Input")
 
-    st.markdown("### 🔍 Running Analysis...")
+    st.markdown("### Running Analysis...")
     
     # 2. RULE-BASED QUALITY CHECK (OpenCV)
     is_valid, message, metrics = check_image_quality(original_image)
