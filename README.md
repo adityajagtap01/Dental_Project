@@ -1,80 +1,76 @@
-🦷 Dental AI Gatekeeper - Backend API
+# 🦷 Dental AI Gatekeeper - Backend API
 
-The Dental AI Gatekeeper API acts as an intelligent backend system that validates dental images before they are stored or passed to downstream diagnostic models.
+An intelligent backend API that validates, classifies, and enhances dental images before storing or forwarding them to diagnostic AI systems.
 
-It ensures that only:
+---
 
-✅ High-quality images
-✅ Correct dental angles
-✅ Valid dental content
+## 📌 Overview
 
-are accepted into the system.
+This API acts as a **Gatekeeper** between the frontend and diagnostic AI.
 
-📌 Overview
+It ensures only:
+- ✅ High-quality images  
+- ✅ Correct dental angles  
+- ✅ Valid dental content  
 
-This API sits between:
+are processed further.
 
-Frontend UI (Image Capture Interface)
-Diagnostic AI System (Module 2)
+---
 
-It performs:
+## 🔄 Workflow
 
-Image Quality Validation (OpenCV)
-Angle Classification (MobileNetV2 Model)
-Image Enhancement (CLAHE)
-Secure Storage
-🔄 Workflow
+1. 📸 Capture dental image (Frontend)
+2. 📤 Send image + patient_id + expected_view
+3. 🔍 API checks:
+   - Image Quality (blur/brightness)
+   - Correct View (AI Model)
+4. ✨ If valid → Enhance (CLAHE) & Save
+5. 📩 Response:
+   - `SUCCESS` → Next step
+   - `FAIL` → Retake image
 
-For each dental view:
+---
 
-📸 User captures an image from the frontend
-📤 UI sends request to API
-🧠 API performs:
-Quality Check (blur/brightness)
-AI Classification (correct view or not)
-✨ If valid → Image enhanced & saved
-📩 API responds with JSON:
-SUCCESS → Move to next view
-FAIL → Retake image
-🛠️ Tech Stack
-Backend Framework: FastAPI
-Server: Uvicorn
-Computer Vision: OpenCV
-ML Model: TensorFlow (MobileNetV2)
-Data Processing: NumPy
-⚙️ Local Setup
-✅ Prerequisites
-Python 3.9+
+## 🛠️ Tech Stack
 
-Pre-trained model file:
+- FastAPI
+- Uvicorn
+- OpenCV
+- TensorFlow (MobileNetV2)
+- NumPy
+
+---
+
+## ⚙️ Setup
+
+### 1. Install Dependencies
+```bash
+pip install fastapi uvicorn python-multipart opencv-python numpy tensorflow
+2. Add Model File
+
+Place in root directory:
 
 dental_view_model_v2.keras
-
-(Place it in the root directory)
-
-📦 Installation
-pip install fastapi uvicorn python-multipart opencv-python numpy tensorflow
-📁 Directory Setup
-
-Create a folder for storing processed images:
-
+3. Create Storage Folder
 mkdir processed_data
-▶️ Running the Server
+
+▶️ Run Server
 uvicorn api:app --reload
 
-Server will run at:
+Server runs at:
 
 http://127.0.0.1:8000
 📡 API Endpoint
-🔹 POST /analyze-view/
-📌 Headers
+POST /analyze-view/
+
 Content-Type: multipart/form-data
-📥 Request Body (Form Data)
-Key	Type	Description
-file	File	Image (.jpg, .png)
-patient_id	String	Unique patient ID
-expected_view	String	Expected dental angle
-🦷 Accepted Views
+
+Request Fields
+Field	Type
+file	File
+patient_id	String
+expected_view	String
+Accepted Views
 Lower Front View
 Lower Left View
 Lower Occlusal View
@@ -84,67 +80,44 @@ Upper Left View
 Upper Occlusal View
 Upper Right View
 
-⚠️ Important: Case-sensitive and must match exactly.
-
-📤 API Responses
+📤 Responses
 ✅ Success
 {
   "status": "SUCCESS",
   "message": "View saved! Move to next."
 }
-❌ Failure - Poor Quality
+❌ Quality Issue
 {
   "status": "FAIL",
   "reason": "QUALITY_POOR",
-  "message": "Image is too blurry. Hold the camera steady."
+  "message": "Image is too blurry."
 }
-❌ Failure - Wrong Angle
+❌ Wrong Angle
 {
   "status": "FAIL",
   "reason": "WRONG_ANGLE",
-  "message": "Expected Lower Front View, but saw Upper Front View."
+  "message": "Incorrect dental view."
 }
-🧪 Testing the API (No Code Required)
+🧪 Testing
 
-FastAPI provides a built-in UI for testing.
-
-Steps:
-Start the server
-
-Open browser:
+Open Swagger UI:
 
 http://127.0.0.1:8000/docs
-Select POST /analyze-view/
-Click Try it out
-Upload image + inputs
-Click Execute
-📂 Output Storage
 
-All validated and enhanced images are stored in:
+📂 Project Structure
+project/
+├── api.py
+├── dental_view_model_v2.keras
+├── processed_data/
+└── README.md
 
-/processed_data
 🚀 Key Features
-🔍 Automated image quality detection
-🧠 AI-based dental view classification
-✨ Medical-grade contrast enhancement (CLAHE)
-⚡ FastAPI high-performance backend
-🔐 Clean validation layer before diagnosis
-📌 Notes for Frontend Developers
-Always send data as multipart/form-data
-Validate status field in response:
-SUCCESS → Move to next step
-FAIL → Show message and retry
-Ensure expected_view matches exactly
-🤝 Future Improvements
-Add authentication layer
-Cloud storage integration (AWS/GCP)
-Real-time feedback overlay for users
-Multi-language support for UI messages
+Image quality validation (OpenCV)
+AI-based dental view classification
+CLAHE image enhancement
+FastAPI high-performance backend
+📌 Notes
+Use multipart/form-data
+expected_view must match exactly
+Handle API response (SUCCESS / FAIL) properly
 
-If you want, I can also:
-
-🔥 Generate api.py structure for this
-🎯 Add system architecture diagram
-📊 Help you integrate this with your frontend
-
-Just tell me 👍
