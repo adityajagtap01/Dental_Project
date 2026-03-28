@@ -19,9 +19,9 @@ CLASSES = [
     'Upper Left View', 'Upper Occlusal View', 'Upper Right View'
 ]
 
-print("🧠 Loading AI Model...")
+print("....Loading AI Model...")
 model = tf.keras.models.load_model(MODEL_PATH)
-print("✅ Ready!")
+print("Ready!!!!!")
 
 # --- 2. IMAGE PROCESSING FUNCTIONS ---
 def apply_enhancements(image):
