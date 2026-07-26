@@ -25,9 +25,9 @@ CLASSES = [
     'Upper Left View', 'Upper Occlusal View', 'Upper Right View'
 ]
 
-print("⏳ Loading AI Model into memory...")
+print(" Loading AI Model into memory...")
 model = tf.keras.models.load_model(MODEL_PATH)
-print("✅ AI Model Ready (Stateless Mode)")
+print(" AI Model Ready (Stateless Mode)")
 
 # --- 2. ENHANCEMENT LOGIC ---
 def apply_enhancements(image):
