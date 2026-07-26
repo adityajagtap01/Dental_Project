@@ -12,8 +12,7 @@ def check_image_quality(image):
     
     # TEST 1: BLUR DETECTION
     blur_score = cv2.Laplacian(gray, cv2.CV_64F).var()
-    blur_threshold = 5.0  # Calibrated based on 4,050 dataset images 
-
+    blur_threshold = 5.0 
     if blur_score < blur_threshold:
         return False, f"Image is too blurry (Score: {blur_score:.1f})", {"blur": blur_score}
 
