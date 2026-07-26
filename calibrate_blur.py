@@ -3,7 +3,7 @@ import os
 import numpy as np
 
 def calibrate_threshold(dataset_path):
-    print(f"🔍 Analyzing your perfect dataset at: {"D:\dataset"}...\n")
+    print(f" Analyzing your perfect dataset at: {"D:\dataset"}...\n")
     
     blur_scores = []
     
@@ -21,7 +21,7 @@ def calibrate_threshold(dataset_path):
                     blur_scores.append(score)
     
     if not blur_scores:
-        print("❌ Could not find any images. Check your folder path.")
+        print(" Could not find any images. Check your folder path.")
         return
 
     # Calculate the statistics
@@ -32,13 +32,13 @@ def calibrate_threshold(dataset_path):
     # We set the recommended threshold just slightly below your lowest perfect image
     recommended_threshold = max(5.0, min_score - 5.0) 
 
-    print("📊 --- CALIBRATION RESULTS ---")
+    print(" --- CALIBRATION RESULTS ---")
     print(f"Total Images Analyzed: {len(blur_scores)}")
     print(f"Sharpest Image Score: {max_score:.2f}")
     print(f"Average Image Score:  {avg_score:.2f}")
     print(f"Blurriest 'Perfect' Image Score: {min_score:.2f}")
     print("-" * 30)
-    print(f"✅ RECOMMENDED ACTION:")
+    print(f" RECOMMENDED ACTION:")
     print(f"Open 'quality_check.py' and change 'blur_threshold' to: {recommended_threshold:.2f}")
 
 if __name__ == "__main__":
