@@ -9,7 +9,7 @@ from quality_check import check_image_quality
 # --- 1. SETUP ---
 app = FastAPI(title="Dental AI Stateless API")
 
-# Enable CORS for Frontend communication
+#CORS 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"], 
@@ -40,7 +40,7 @@ def apply_enhancements(image):
     limg = cv2.merge((cl, a, b))
     return cv2.cvtColor(limg, cv2.COLOR_LAB2RGB)
 
-# --- 3. THE MAGIC ENDPOINT ---
+# --- 3. Checking ---
 @app.post("/analyze-view/")
 async def analyze_view(
     file: UploadFile = File(...), 
@@ -68,11 +68,11 @@ async def analyze_view(
         preds = model.predict(img_array)
         predicted_view = CLASSES[np.argmax(preds)]
 
-        # D. Match Logic (Sanitized)
+        # D. Match Logic 
         clean_predicted = predicted_view.strip().lower()
         clean_expected = expected_view.strip().lower()
 
-        # E. THE RESPONSE LOGIC
+        # E. RESPONSE LOGIC
         if clean_predicted == clean_expected and clean_predicted != 'noise_objects':
             # Process and return image string
             enhanced_img = apply_enhancements(image_rgb)
